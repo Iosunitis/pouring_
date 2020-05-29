@@ -1,3 +1,7 @@
+
+
+
+
 import ketai.sensors.*; 
 
 KetaiSensor sensor;
@@ -9,9 +13,10 @@ int stepsDetected;
 float amountLiquid = MAX_AMOUNT;
 float drainAmount = 0.3;
 
-float balance=7;
+float balance=1;
 
 float amountPixels;
+
 
 static float MAX_AMOUNT = 100;
 
@@ -28,7 +33,7 @@ void draw() {
   background(255);
   //fill(#FFB4FB);
   noStroke();
-  fill(#FFB4FB);
+ fill(#DE003B);;
 
   if (accelerometerY > 13) {
     refill();
@@ -41,10 +46,11 @@ void draw() {
     //soundPouring.play();
   }
 
-  amountLiquid = constrain(amountLiquid, 0, MAX_AMOUNT);
-amountPixels = map(amountLiquid, 0, MAX_AMOUNT, 0, height);
-  rect(0, height -amountPixels, width, amountPixels);
+   amountLiquid = constrain(amountLiquid, 0, MAX_AMOUNT);
+  amountPixels = map(amountLiquid, 0, MAX_AMOUNT, 0, height);
+  rect(0, height -amountPixels -stepsDetected*10, width, amountPixels+stepsDetected*10);
   textSize(30 * displayDensity);
+  println(amountPixels);
   //textAlign(CENTER, CENTER);
 
   fill(0);
@@ -64,8 +70,6 @@ amountPixels = map(amountLiquid, 0, MAX_AMOUNT, 0, height);
 
 void onStepDetectorEvent() { // called on every step detected
   stepsDetected++;
-  println("step " + stepsDetected);
-   println(amountPixels);
 }
 
 void onStepCounterEvent(float s) { // s is the step count since device reboot, is called on new step
@@ -80,4 +84,3 @@ void onAccelerometerEvent(float x, float y, float z) {
   accelerometerY = y;
   accelerometerZ = z;
 }
-
